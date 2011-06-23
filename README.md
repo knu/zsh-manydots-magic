@@ -19,6 +19,14 @@ quadruple dots to `../../..`, etc..
 	% ../.. [Hit <^H>]
 	% ..
 
+As you see above, each of the `/..` parts complemented by this tweak
+can be deleted by a single invocation of the `backward-delete-char`
+command, only if invoked right after the magic happens.
+
+	% .. [Hit </><.><.>]
+	% ../.. [Hit <^H>]
+	% ../.
+
 How to set up
 -------------
 
