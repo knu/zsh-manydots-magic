@@ -33,7 +33,7 @@ manydots-magic.self-insert() {
     local self_insert_function
     zstyle -s ':manydots-magic' self-insert-function self_insert_function
 
-    if [[ "$KEYS" == .* && "$LBUFFER" == *.. ]] && {
+    if [[ "$KEYS" == .* && "$LBUFFER" != *...* && "$LBUFFER" == *.. ]] && {
         local -a words
         words=("${(@Q)${(z)LBUFFER}}")
         [[ $words[-1] == (|*[/=]|[\<\>=]\().. ]]
@@ -44,9 +44,22 @@ manydots-magic.self-insert() {
         zstyle -s ':manydots-magic' magic-count magic_count
         zstyle ':manydots-magic' magic-count $((magic_count+1))
         LBUFFER="$LBUFFER/."
-    else
-        zstyle ':manydots-magic' magic-count 0
+        zle "$self_insert_function"
+        return
     fi
+
+    # cancel expansion if it does not seem right
+    if [[ "$KEYS" == [[:alnum:]_?*+#\\-]* &&
+        "$LASTWIDGET" == (self-insert|backward-delete-char) && "$LBUFFER" == *../.. ]] && {
+        local magic_count
+        zstyle -s ':manydots-magic' magic-count magic_count
+        [[ "$magic_count" -gt 0 ]]
+    }
+    then
+        LBUFFER="${LBUFFER%/..}."
+    fi
+
+    zstyle ':manydots-magic' magic-count 0
 
     zle "$self_insert_function"
 }
