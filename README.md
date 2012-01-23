@@ -27,11 +27,26 @@ command, only if invoked right after the magic happens.
 	% ../.. [Hit <^H>]
 	% ../.
 
+Triple-dot is not a rarely used character sequence, and this tweak
+kind of "knows" when it should be expanded.
+
+	% ruby -e '(1.. [Hit <.>]
+	% ruby -e '(1...
+
+	% git log branch.. [Hit <.>]
+	% git log branch...
+
+	% git diff .. [Hit <.>]
+	% git diff ../.. [Hit <b>]      <- This may be a path...
+	% git diff ...b [Hit <ranch>]   <- Or not.
+	% git diff ...branch
+
 How to set up
 -------------
 
-Put the file `manydots-magic` somewhere in your `$fpath` and add these
-lines to your `.zshrc`:
+Put the file `manydots-magic` somewhere in your `$fpath` (typically in
+`$ZDOTDIR` which is set to something like `~/.zsh` or `~/.zsh.d`) and
+add these lines to your `.zshrc`:
 
 	autoload -Uz manydots-magic
 	manydots-magic
@@ -42,7 +57,7 @@ If you are enabling `url-quote-magic`, make sure to load
 License
 -------
 
-Copyright (c) 2011 Akinori MUSHA
+Copyright (c) 2011, 2012 Akinori MUSHA
 
 Licensed under the 2-clause BSD license.
 See `LICENSE` for details.
