@@ -29,7 +29,7 @@
 #
 
 manydots-magic.self-insert() {
-    setopt localoptions noksharrays
+    emulate -L zsh
     local self_insert_function
     zstyle -s ':manydots-magic' self-insert-function self_insert_function
 
@@ -52,7 +52,7 @@ manydots-magic.self-insert() {
 }
 
 manydots-magic.backward-delete-char() {
-    setopt localoptions noksharrays
+    emulate -L zsh
     local backward_delete_char_function
     zstyle -s ':manydots-magic' backward-delete-char-function backward_delete_char_function
 
@@ -72,6 +72,7 @@ manydots-magic.backward-delete-char() {
 }
 
 manydots-magic.on() {
+    emulate -L zsh
     local self_insert_function="${$(zle -lL | awk \
         '$1=="zle"&&$2=="-N"&&$3=="self-insert"{print $4;exit}'):-.self-insert}"
 
@@ -104,6 +105,7 @@ manydots-magic.on() {
 }
 
 manydots-magic.off() {
+    emulate -L zsh
     local self_insert_function backward_delete_char_function
     zstyle -s ':manydots-magic' self-insert-function self_insert_function
 
