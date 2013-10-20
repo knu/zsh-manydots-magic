@@ -101,8 +101,10 @@ manydots-magic.on() {
     local backward_delete_char_function="$(zle -lL | awk \
         '$1=="zle"&&$2=="-N"&&$3=="backward-delete-char"{print $4;exit}')"
 
-    if [[ -z "$backward_delete_char_function" ]]
+    if [[ -n "$backward_delete_char_function" ]]
     then
+        zle -la "$backward_delete_char_function" || zle -N "$backward_delete_char_function"
+    else
         zle -A backward-delete-char manydots-magic.orig.backward-delete-char
         backward_delete_char_function=manydots-magic.orig.backward-delete-char
     fi
