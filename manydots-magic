@@ -36,6 +36,8 @@ manydots-magic.self-insert() {
     if [[ "$KEYS" == .* && "$LBUFFER" != *...* && "$LBUFFER" == *.. ]] && {
         local -a words
         words=("${(@Q)${(z)LBUFFER}}")
+        # `...` is a wildcard operator in go
+        [[ ${${(@)words[1,-2]}[(I)go]} = 0 ]] &&
         [[ $words[-1] == (|*[/=]|[\<\>=]\().. ]]
     }
     then
