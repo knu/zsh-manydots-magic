@@ -107,8 +107,8 @@ manydots-magic.on() {
     then
         zle -la "$backward_delete_char_function" || zle -N "$backward_delete_char_function"
     else
-        zle -A backward-delete-char manydots-magic.orig.backward-delete-char
-        backward_delete_char_function=manydots-magic.orig.backward-delete-char
+        zle -A backward-delete-char manydots-magic.backward-delete-char
+        backward_delete_char_function=manydots-magic.backward-delete-char
     fi
 
     zstyle ':manydots-magic' backward-delete-char-function "$backward_delete_char_function"
